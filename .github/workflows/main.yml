@@ -24,9 +24,5 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: Setup Elm
-      # You may pin to the exact commit or the version.
-      # uses: justgook/setup-elm@c6b69ece0327233e01d25e0a9e2426422ca76423
-        uses: justgook/setup-elm@1.2.0
       - name: elm-format
         uses: sparksp/elm-format-action@v1.0.2
