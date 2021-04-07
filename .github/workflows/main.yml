@@ -35,10 +35,6 @@ jobs:
        with:
         path: ~/.elm
         key: ${{ runner.os }}-elm--home-${{ hashFiles('**/elm.json', 'elm-tooling.json') }}
-     - uses: romeovs/lcov-reporter-action@v0.2.16
-       with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          lcov-file: ./coverage/lcov.info
      - name: Install dependencies
        if: steps.npm-cache.outputs.cache-hit != 'true'
        env:
@@ -54,8 +50,8 @@ jobs:
        continue-on-error: true
      - uses: peter-evans/create-pull-request@v3
        with:
-        commit-message: 'Apply elm-review fixes'
-        branch: fixes-${{ steps.extract_branch.outputs.branch }}
+        commit-message: 'chore(elm-review): Apply elm-review fixes'
+        branch: ${{ steps.vars.outputs.branch-name }}
         title: "Apply elm-review fixes"
         body: "*This is an automated pull request because elm-review found problems that could be fixed automatically.*"
         reviewers: ryanbas21
