@@ -1,0 +1,47 @@
+name: CI Test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+     - uses: actions/checkout@v2
+       with:
+        submodules: recursive
+     - uses: actions/cache@v2
+       id: npm-cache
+       with:
+        path: node_modules
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
+     - uses: actions/cache@v2
+       id: elm-cache
+       with:
+        path: ~/.elm
+        key: ${{ runner.os }}-elm--home-${{ hashFiles('**/elm.json', 'elm-tooling.json') }}
+     - name: Install dependencies
+       if: steps.npm-cache.outputs.cache-hit != 'true'
+       env:
+          NO_ELM_TOOLING_INSTALL: 1
+       run: npm ci
+     - name: elm-tooling install
+       run: npx --no-install elm-tooling install
+     - name: Run elm-format
+       run: npx --no-install elm-format src/ --yes
+    - name: Setup Elm environment
+      uses: JorelAli/setup-elm@v1
+      with:
+        # Version of Elm to use. E.g. 0.19.1
+        elm-version: 0.19.1
+    - run: |
+        mkdir ~/.npm-global
+        npm config set prefix '~/.npm-global'
+        PATH=~/.npm-global/bin:$PATH
+        npm install -g elm-test
+        elm-test
+        elm make
+    - uses: romeovs/lcov-reporter-action@v0.2.16
+       with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          lcov-file: ./coverage/lcov.info
