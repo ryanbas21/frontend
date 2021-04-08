@@ -1,5 +1,5 @@
 tests: 
-  ["tests/*.elm"]
+  ["tests/**/*.elm", "tests/*.elm"]
 Pages:
   ["src/NotFound.elm", "src/Home/Home.elm", "src/Login/Login.elm", "src/Register/Register.elm"]
 Routing: ["src/Routing.elm"]
