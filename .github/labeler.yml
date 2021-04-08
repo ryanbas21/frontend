@@ -1,0 +1,9 @@
+tests: 
+  ["tests/*.elm"]
+Pages:
+  ["src/NotFound.elm", "src/Home/Home.elm", "src/Login/Login.elm", "src/Register/Register.elm"]
+Routing: ["src/Routing.elm"]
+Main: 
+  ["Main.elm"]
+packages: ["elm-tooling.json", "package.json", "elm.json"]
+styling: ["*.css"]
